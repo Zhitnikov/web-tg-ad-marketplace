@@ -2,17 +2,17 @@
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
-  min-height: 100vh; // Для центрирования по высоте
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #ffffff; // Белый фон
-  font-family: 'Arial', sans-serif; // Sans-serif шрифт как в банковских UI
+  background-color: #ffffff;
+  font-family: 'Arial', sans-serif;
 
   h1 {
     text-align: center;
-    color: #000000; // Чёрный текст
+    color: #000000;
     font-weight: bold;
     margin-bottom: 20px;
   }
@@ -26,15 +26,15 @@
 
   .choice-button {
     padding: 12px;
-    background-color: #EF3124; // Красный Альфа-Банка
+    background-color: #EF3124;
     color: #ffffff;
     border: none;
-    border-radius: 8px; // Закруглённые углы
+    border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
     font-size: 16px;
     &:hover {
-      background-color: #D42A1E; // Темнее на hover
+      background-color: #D42A1E;
     }
   }
 
@@ -45,7 +45,7 @@
     label {
       display: block;
       margin-bottom: 8px;
-      color: #333333; // Тёмно-серый
+      color: #333333;
       font-weight: 500;
     }
 
@@ -57,7 +57,7 @@
       border-radius: 8px;
       font-size: 16px;
       &:focus {
-        border-color: #EF3124; // Красный фокус
+        border-color: #EF3124;
         outline: none;
       }
     }
@@ -79,7 +79,7 @@
     }
 
     &:disabled {
-      background-color: #6c757d; // Серый для disabled
+      background-color: #6c757d;
       opacity: 0.7;
       cursor: not-allowed;
     }

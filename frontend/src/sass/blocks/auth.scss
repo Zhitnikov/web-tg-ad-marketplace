@@ -1,0 +1,87 @@
+.auth-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh; // Для центрирования по высоте
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff; // Белый фон
+  font-family: 'Arial', sans-serif; // Sans-serif шрифт как в банковских UI
+
+  h1 {
+    text-align: center;
+    color: #000000; // Чёрный текст
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .choice-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .choice-button {
+    padding: 12px;
+    background-color: #EF3124; // Красный Альфа-Банка
+    color: #ffffff;
+    border: none;
+    border-radius: 8px; // Закруглённые углы
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    &:hover {
+      background-color: #D42A1E; // Темнее на hover
+    }
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+    width: 100%;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333333; // Тёмно-серый
+      font-weight: 500;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      box-sizing: border-box;
+      border: 1px solid #cccccc;
+      border-radius: 8px;
+      font-size: 16px;
+      &:focus {
+        border-color: #EF3124; // Красный фокус
+        outline: none;
+      }
+    }
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background-color: #EF3124;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+
+    &:hover {
+      background-color: #D42A1E;
+    }
+
+    &:disabled {
+      background-color: #6c757d; // Серый для disabled
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+}

@@ -1,0 +1,20 @@
+@use "variables.scss" as *;
+
+@mixin title {
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+@mixin button {
+	display: block;
+	background-color: transparent;
+	border-radius: 2px;
+	text-align: center;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	text-transform: uppercase;
+}

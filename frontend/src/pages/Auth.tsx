@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { LoginFormData, RegisterFormData } from '../types/authTypes';
 import ChoiceScreen from '../components/auth/ChoiceScreen';
@@ -9,6 +9,7 @@ import RegisterMainStep from '../components/auth/RegisterMainStep';
 type Mode = 'choice' | 'login' | 'register-step1' | 'register-step2';
 
 const Auth: React.FC = () => {
+    const navigate = useNavigate();
     const [mode, setMode] = useState<Mode>('choice');
     const [loginData, setLoginData] = useState<LoginFormData>({
         password: '',
@@ -21,7 +22,13 @@ const Auth: React.FC = () => {
         city: '',
     });
 
-    const navigate = useNavigate();
+    // Проверяем, залогинен ли пользователь при загрузке
+    useEffect(() => {
+        const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+        if (isAuthenticated) {
+            navigate('/home', { replace: true });
+        }
+    }, [navigate]);
 
     const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -42,8 +49,11 @@ const Auth: React.FC = () => {
             updatedData = { ...updatedData, phone: loginInput, email: undefined };
         }
         console.log('Данные входа:', updatedData);
+        
         // TODO: API для входа
-        navigate('/home');
+        // После успешной авторизации:
+        localStorage.setItem('isAuthenticated', 'true');
+        navigate('/home', { replace: true });
     };
 
     const handleRegisterEmailSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -54,8 +64,11 @@ const Auth: React.FC = () => {
     const handleRegisterMainSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log('Данные регистрации:', registerData);
+        
         // TODO: API для регистрации
-        navigate('/home');
+        // После успешной регистрации:
+        localStorage.setItem('isAuthenticated', 'true');
+        navigate('/home', { replace: true });
     };
 
     const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);

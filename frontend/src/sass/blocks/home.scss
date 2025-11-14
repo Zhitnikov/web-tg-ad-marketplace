@@ -1,8 +1,12 @@
+.home-page {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
 .home-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #ffffff;
   font-family: 'Arial', sans-serif;
   display: flex;
   flex-direction: column;

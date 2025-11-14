@@ -1,0 +1,2 @@
+export { AdsPage } from './AdsPage';
+

@@ -1,0 +1,147 @@
+@use "../../../sass/base/variables.scss" as *;
+
+.create-ad-form {
+  padding: $spacing-lg 0;
+  max-width: 100%;
+}
+
+.create-ad-form__title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+  color: $main-color;
+  padding: $spacing-md $spacing-lg;
+  margin-bottom: $spacing-xl;
+}
+
+.create-ad-form__field {
+  margin-bottom: $spacing-lg;
+}
+
+.create-ad-form__label {
+  display: block;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.193;
+  color: $main-color;
+  margin-bottom: $spacing-sm;
+}
+
+.create-ad-form__textarea {
+  width: 100%;
+  padding: 11px 10px;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-md;
+  font-family: $font-family;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.193;
+  color: $main-color;
+  background-color: $white;
+  resize: vertical;
+  margin-bottom: $spacing-sm;
+  
+  &::placeholder {
+    color: $placeholder-color;
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: $main-color;
+  }
+  
+  &.create-ad-form__textarea--erir {
+    margin-top: $spacing-sm;
+  }
+  
+  &.create-ad-form__textarea--after-checkbox {
+    margin-top: $spacing-md;
+  }
+}
+
+.create-ad-form__input-after-checkbox {
+  margin-top: $spacing-md;
+}
+
+.create-ad-form__checkbox-wrapper {
+  margin-top: $spacing-sm;
+}
+
+.create-ad-form__actions {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin-top: $spacing-xl;
+}
+
+.create-ad-form__link {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.193;
+  color: $main-color;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  
+  &:hover {
+    opacity: 0.7;
+    text-decoration: underline;
+  }
+}
+
+.create-ad-form__files {
+  margin-top: $spacing-md;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.create-ad-form__file-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px;
+  border: 1px solid $border-color;
+  border-radius: 15px;
+  background-color: $white;
+}
+
+.create-ad-form__file-icon {
+  width: 15px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+.create-ad-form__file-name {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.193;
+  color: $second-color;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.create-ad-form__file-remove {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: none;
+  font-size: 20px;
+  line-height: 1;
+  color: $second-color;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  
+  &:hover {
+    color: $main-color;
+  }
+}
+

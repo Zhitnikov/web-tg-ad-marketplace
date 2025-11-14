@@ -1,0 +1,2 @@
+export { CreateAdPage } from './CreateAdPage';
+

@@ -1,0 +1,12 @@
+@use "../../../sass/base/mixins.scss" as *;
+
+.btn {
+  &-primary {
+    @include button-primary;
+  }
+  
+  &-secondary {
+    @include button-secondary;
+  }
+}
+

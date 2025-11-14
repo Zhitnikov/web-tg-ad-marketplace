@@ -1,13 +1,18 @@
+.wallet-page {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
 .wallet-replenish-container {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
-  min-height: 100vh;
+  min-height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  background-color: #ffffff;
+  padding-top: 60px;
   font-family: 'Arial', sans-serif;
 
   h1 {
@@ -65,6 +70,7 @@
     cursor: pointer;
     font-weight: bold;
     font-size: 16px;
+    margin-top: 20px;
 
     &:hover {
       background-color: #D42A1E;

@@ -1,0 +1,42 @@
+@use "../../../sass/base/variables.scss" as *;
+
+.file-upload {
+  position: relative;
+}
+
+.file-upload-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.file-upload-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px;
+  border: 1px solid $border-color;
+  border-radius: 10px;
+  background-color: $white;
+  color: $main-color;
+  font-family: $font-family;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.221;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  
+  &:hover {
+    background-color: $secondary-button;
+    border-color: $main-color;
+  }
+}
+
+.file-upload-icon {
+  width: 16px;
+  height: 16px;
+  color: currentColor;
+}
+

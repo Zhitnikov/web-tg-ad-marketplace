@@ -1,0 +1,100 @@
+.my-orders-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  font-family: 'Arial', sans-serif;
+
+  h1 {
+    text-align: center;
+    color: #000000;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+}
+
+.order-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.order-card {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .order-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h3 {
+      margin: 0;
+      color: #000000;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .menu-button {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #333333;
+      &:hover {
+        color: #EF3124;
+      }
+    }
+  }
+
+  .order-description {
+    margin: 10px 0;
+    color: #333333;
+    font-size: 14px;
+  }
+
+  .order-status {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    align-self: flex-start;
+
+    &.status-ожидает {
+      background-color: #ffc107;
+      color: #000000;
+    }
+
+    &.status-завершён {
+      background-color: #28a745;
+      color: #ffffff;
+    }
+
+    &.status-создан {
+      background-color: #007bff;
+      color: #ffffff;
+    }
+
+    &.status-отклонён {
+      background-color: #dc3545;
+      color: #ffffff;
+    }
+  }
+
+  &:hover {
+    border-color: #EF3124;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+}

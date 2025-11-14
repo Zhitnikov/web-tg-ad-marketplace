@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Auth from './pages/Auth';
+import MyOrders from "./pages/MyOrders.tsx";
 
 function App() {
     return (
@@ -8,6 +9,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Navigate to="/auth" replace />} />
                     <Route path="/auth" element={<Auth />} />
+                    <Route path="/my-orders" element={<MyOrders />} />
                 </Routes>
             </div>
         </Router>

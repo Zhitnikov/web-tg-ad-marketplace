@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { LoginFormData, RegisterFormData } from '../types/authTypes';
 import ChoiceScreen from '../components/auth/ChoiceScreen';
 import LoginForm from '../components/auth/LoginForm';
@@ -16,9 +17,11 @@ const Auth: React.FC = () => {
         email: '',
         phone: '',
         password: '',
-        userType: '', // Нет дефолта
+        userType: '',
         city: '',
     });
+
+    const navigate = useNavigate();
 
     const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -39,7 +42,8 @@ const Auth: React.FC = () => {
             updatedData = { ...updatedData, phone: loginInput, email: undefined };
         }
         console.log('Данные входа:', updatedData);
-        // TODO: апи для входа
+        // TODO: API для входа
+        navigate('/home');
     };
 
     const handleRegisterEmailSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -50,8 +54,8 @@ const Auth: React.FC = () => {
     const handleRegisterMainSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log('Данные регистрации:', registerData);
-        // TODO: апи для регистрации
-        setMode('login');
+        // TODO: API для регистрации
+        navigate('/home');
     };
 
     const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);

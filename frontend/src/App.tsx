@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Auth from './pages/Auth';
 import MyOrders from "./pages/MyOrders.tsx";
 import WalletReplenish from "./pages/WalletReplenish.tsx";
+import Home from "./pages/Home.tsx";
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
                     <Route path="/auth" element={<Auth />} />
                     <Route path="/my-orders" element={<MyOrders />} />
                     <Route path="/wallet-replenish" element={<WalletReplenish />} />
+                    <Route path="/home" element={<Home />} />
                 </Routes>
             </div>
         </Router>

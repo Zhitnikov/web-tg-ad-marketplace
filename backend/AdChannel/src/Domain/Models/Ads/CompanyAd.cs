@@ -11,6 +11,7 @@
         public required string AgeOfTargetAudience { get; set; }
         public required double AdCost { get; set; }
         public string? LinkToProduct { get; set; }
+        public string? ImageUrl { get; set; }
         public bool IsCanceled { get; set; }
         public bool NeedAutoFormatingToTgPost { get; set; }
         public AdStatus Status { get; set; }

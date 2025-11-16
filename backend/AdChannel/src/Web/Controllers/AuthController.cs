@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AdChannel.Web.Controllers
 {
-    [Microsoft.AspNetCore.Components.Route("api/auth")]
+    [ApiController]
+    [Route("api/auth")]
     public class AuthController : ControllerBase
     {
         private readonly ICompanyService _companyService;

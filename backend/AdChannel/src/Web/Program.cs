@@ -58,11 +58,27 @@ builder.Services.AddSwaggerGen(c =>
         });
 });
 
+// CORS для фронта на Vite (http://localhost:5173)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();
+        });
+});
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
 builder.Services.AddAdChannelServices();
+
+// HttpClient для AI сервисов
+builder.Services.AddHttpClient();
 
 builder.Services.AddAutoMapper(cfg =>
 {
@@ -96,8 +112,11 @@ builder.Services.AddAuthorization();
 var app = builder.Build();
 
 // === МИДЛВАРИ ===
+// CORS должен идти до аутентификации/авторизации
+app.UseCors("AllowFrontend");
 app.UseAuthentication();
-app.UseHttpsRedirection();
+// В dev отключаем редирект на HTTPS, чтобы не ломать CORS preflight
+// app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseSwagger();

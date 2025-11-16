@@ -10,5 +10,11 @@ namespace AdChannel.Domain.Services
         Task RejectAd(Guid channelId, Guid campaignId);
         Task<ICollection<AdToPost>> GetPendingAds(Guid channelId);
         Task<ICollection<CompanyAd>> GetMyCampaigns(Guid companyId);
+        Task<ICollection<CompanyAd>> GetAvailableAdsForChannels();
+        Task ConfirmCompletion(Guid companyId, Guid adToPostId);
+        Task<ICollection<AcceptedAdDto>> GetAcceptedAdsForCompany(Guid companyId);
+        Task<CompanyAd> UpdateCampaign(Guid userId, Guid companyId, Guid campaignId, CompanyAdDto dto);
+        Task DeleteCampaign(Guid userId, Guid companyId, Guid campaignId);
+        Task PublishCampaign(Guid userId, Guid companyId, Guid campaignId);
     }
 }

@@ -1,13 +1,22 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { clearAuthToken } from '../../../api';
 import './Header.scss';
 
 interface HeaderProps {
   onMenuClick: () => void;
   onProfileClick: () => void;
   variant?: 'default' | 'red';
+  showLogout?: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onMenuClick, onProfileClick, variant = 'default' }) => {
+export const Header: React.FC<HeaderProps> = ({ onMenuClick, onProfileClick, variant = 'default', showLogout = true }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    clearAuthToken();
+    navigate('/auth', { replace: true });
+  };
 
   return (
     <header className={`account-header ${variant === 'red' ? 'account-header--red' : ''}`}>
@@ -55,6 +64,30 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, onProfileClick, var
             />
           </svg>
         </button>
+        {showLogout && (
+          <button
+            type="button"
+            className="account-header__icon"
+            onClick={handleLogout}
+            aria-label="Выйти"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7 2H3C2.44772 2 2 2.44772 2 3V15C2 15.5523 2.44772 16 3 16H7M12 13L16 9M16 9L12 5M16 9H7"
+                stroke="#FFFFFF"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        )}
       </div>
     </header>
   );

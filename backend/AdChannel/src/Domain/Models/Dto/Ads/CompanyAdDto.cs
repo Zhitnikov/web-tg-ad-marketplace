@@ -24,6 +24,8 @@ namespace AdChannel.Domain.Models.Dto.Ads
 
         public string? LinkToProduct { get; set; }
 
+        public string? ImageUrl { get; set; }
+
         public bool IsCanceled { get; set; } = false;
     }
 }

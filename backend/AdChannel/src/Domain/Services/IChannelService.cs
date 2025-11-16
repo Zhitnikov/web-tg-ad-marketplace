@@ -6,5 +6,6 @@ namespace AdChannel.Domain.Services
     {
         Task<ChannelUser> RegisterAsync(ChannelUser channel, Guid userId);
         Task<ChannelUser?> GetByEmailAsync(string email);
+        Task<ChannelUser?> GetByIdAsync(Guid id);
     }
 }

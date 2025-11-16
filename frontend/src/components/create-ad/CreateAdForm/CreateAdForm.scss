@@ -145,3 +145,49 @@
   }
 }
 
+.create-ad-form__generated-content {
+  margin-top: $spacing-sm;
+  padding: $spacing-md;
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: $border-radius-md;
+  border-left: 3px solid #1976d2;
+}
+
+.create-ad-form__generated-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1976d2;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: $spacing-xs;
+}
+
+.create-ad-form__generated-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.create-ad-form__generating {
+  font-size: 14px;
+  color: #1976d2;
+  font-style: italic;
+  padding: $spacing-sm 0;
+}
+
+// Зелёные стили для ЕРИР
+.create-ad-form__generated-content--erir {
+  border-left-color: #4caf50;
+}
+
+.create-ad-form__generated-label--erir {
+  color: #4caf50;
+}
+
+.create-ad-form__generating--erir {
+  color: #4caf50;
+}
+

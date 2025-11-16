@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useUserRole } from '../../../hooks/useUserRole';
 import './Menu.scss';
 
 interface MenuProps {
@@ -10,6 +11,7 @@ interface MenuProps {
 export const Menu: React.FC<MenuProps> = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { role, loading } = useUserRole();
 
   const handleNavigation = (path: string) => {
     navigate(path);
@@ -19,6 +21,11 @@ export const Menu: React.FC<MenuProps> = ({ isOpen, onClose }) => {
   const isActive = (path: string) => {
     return location.pathname === path;
   };
+
+  // Показываем меню только после загрузки роли
+  if (loading) {
+    return null;
+  }
 
   return (
     <>
@@ -53,20 +60,49 @@ export const Menu: React.FC<MenuProps> = ({ isOpen, onClose }) => {
           >
             Главная
           </button>
-          <button
-            type="button"
-            className={`menu__item ${isActive('/orders') ? 'menu__item--active' : ''}`}
-            onClick={() => handleNavigation('/orders')}
-          >
-            Мои заказы
-          </button>
-          <button
-            type="button"
-            className={`menu__item ${isActive('/account') ? 'menu__item--active' : ''}`}
-            onClick={() => handleNavigation('/account')}
-          >
-            Мои рекламы
-          </button>
+          {role === 'Channel' && (
+            <>
+              <button
+                type="button"
+                className={`menu__item ${isActive('/marketplace') ? 'menu__item--active' : ''}`}
+                onClick={() => handleNavigation('/marketplace')}
+              >
+                Маркетплейс
+              </button>
+              <button
+                type="button"
+                className={`menu__item ${isActive('/orders') ? 'menu__item--active' : ''}`}
+                onClick={() => handleNavigation('/orders')}
+              >
+                Мои заказы
+              </button>
+            </>
+          )}
+          {role === 'Company' && (
+            <>
+              <button
+                type="button"
+                className={`menu__item ${isActive('/account') ? 'menu__item--active' : ''}`}
+                onClick={() => handleNavigation('/account')}
+              >
+                Мои рекламы
+              </button>
+              <button
+                type="button"
+                className={`menu__item ${isActive('/accepted-ads') ? 'menu__item--active' : ''}`}
+                onClick={() => handleNavigation('/accepted-ads')}
+              >
+                Принятые рекламы
+              </button>
+              <button
+                type="button"
+                className={`menu__item ${isActive('/create-ad') ? 'menu__item--active' : ''}`}
+                onClick={() => handleNavigation('/create-ad')}
+              >
+                Создать рекламу
+              </button>
+            </>
+          )}
           <button
             type="button"
             className={`menu__item ${isActive('/wallet') ? 'menu__item--active' : ''}`}

@@ -7,7 +7,10 @@ import { CreateAdPage } from './pages/CreateAdPage';
 import { AdsPage } from './pages/AdsPage';
 import { OrdersPage } from './pages/OrdersPage';
 import { SupportPage } from './pages/SupportPage';
+import { MarketplacePage } from './pages/MarketplacePage';
+import { AcceptedAdsPage } from './pages/AcceptedAdsPage/AcceptedAdsPage';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { RoleProtectedRoute } from './components/RoleProtectedRoute/RoleProtectedRoute';
 import { RedirectHandler } from './components/RedirectHandler';
 import './sass/blocks/app/app.scss';
 
@@ -30,7 +33,9 @@ function App() {
                         path="/account"
                         element={
                             <ProtectedRoute>
-                                <AdsPage />
+                                <RoleProtectedRoute allowedRoles={['Company']}>
+                                    <AdsPage />
+                                </RoleProtectedRoute>
                             </ProtectedRoute>
                         }
                     />
@@ -38,7 +43,9 @@ function App() {
                         path="/orders"
                         element={
                             <ProtectedRoute>
-                                <OrdersPage />
+                                <RoleProtectedRoute allowedRoles={['Channel']}>
+                                    <OrdersPage />
+                                </RoleProtectedRoute>
                             </ProtectedRoute>
                         }
                     />
@@ -46,7 +53,9 @@ function App() {
                         path="/create-ad"
                         element={
                             <ProtectedRoute>
-                                <CreateAdPage />
+                                <RoleProtectedRoute allowedRoles={['Company']}>
+                                    <CreateAdPage />
+                                </RoleProtectedRoute>
                             </ProtectedRoute>
                         }
                     />
@@ -74,10 +83,30 @@ function App() {
                             </ProtectedRoute>
                         }
                     />
-                </Routes>
-            </div>
-        </Router>
-    );
-}
+                           <Route
+                               path="/marketplace"
+                               element={
+                                   <ProtectedRoute>
+                                       <RoleProtectedRoute allowedRoles={['Channel']}>
+                                           <MarketplacePage />
+                                       </RoleProtectedRoute>
+                                   </ProtectedRoute>
+                               }
+                           />
+                           <Route
+                               path="/accepted-ads"
+                               element={
+                                   <ProtectedRoute>
+                                       <RoleProtectedRoute allowedRoles={['Company']}>
+                                           <AcceptedAdsPage />
+                                       </RoleProtectedRoute>
+                                   </ProtectedRoute>
+                               }
+                           />
+                       </Routes>
+                   </div>
+               </Router>
+           );
+       }
 
-export default App;
+       export default App;

@@ -5,12 +5,17 @@ import ChoiceScreen from '../components/auth/ChoiceScreen';
 import LoginForm from '../components/auth/LoginForm';
 import RegisterEmailStep from '../components/auth/RegisterEmailStep';
 import RegisterMainStep from '../components/auth/RegisterMainStep';
+import { apiFetch, setAuthToken } from '../api';
+import { Notification } from '../components/Notification';
 
 type Mode = 'choice' | 'login' | 'register-step1' | 'register-step2';
 
 const Auth: React.FC = () => {
     const navigate = useNavigate();
     const [mode, setMode] = useState<Mode>('choice');
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [notificationType, setNotificationType] = useState<'success' | 'error' | 'info'>('error');
     const [loginData, setLoginData] = useState<LoginFormData>({
         password: '',
     });
@@ -40,20 +45,42 @@ const Auth: React.FC = () => {
         setRegisterData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>, loginInput: string) => {
+    const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>, loginInput: string) => {
         e.preventDefault();
         let updatedData: LoginFormData = { ...loginData };
         if (isValidEmail(loginInput)) {
             updatedData = { ...updatedData, email: loginInput, phone: undefined };
         } else if (isValidPhone(loginInput)) {
-            updatedData = { ...updatedData, phone: loginInput, email: undefined };
+            // На бэк отправляем только email, поэтому если ввели телефон, пока просто логируем
+            console.warn('Логин по телефону пока не поддержан на бэкенде');
+            return;
         }
-        console.log('Данные входа:', updatedData);
-        
-        // TODO: API для входа
-        // После успешной авторизации:
-        localStorage.setItem('isAuthenticated', 'true');
-        navigate('/home', { replace: true });
+
+        if (!updatedData.email) {
+            return;
+        }
+
+        try {
+            const result = await apiFetch<{ token: string }>('/api/auth/login', {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: updatedData.email,
+                    password: updatedData.password,
+                }),
+            }, false);
+
+            setAuthToken(result.token);
+            localStorage.setItem('isAuthenticated', 'true');
+            navigate('/home', { replace: true });
+        } catch (error: any) {
+            console.error('Ошибка авторизации', error);
+            const errorMessage = error?.message?.includes('Invalid email or password') 
+                ? 'Неверный email или пароль' 
+                : 'Ошибка при входе. Проверьте данные и попробуйте снова.';
+            setNotificationMessage(errorMessage);
+            setNotificationType('error');
+            setShowNotification(true);
+        }
     };
 
     const handleRegisterEmailSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -61,14 +88,58 @@ const Auth: React.FC = () => {
         setMode('register-step2');
     };
 
-    const handleRegisterMainSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleRegisterMainSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('Данные регистрации:', registerData);
-        
-        // TODO: API для регистрации
-        // После успешной регистрации:
-        localStorage.setItem('isAuthenticated', 'true');
-        navigate('/home', { replace: true });
+
+        try {
+            const role = registerData.userType === 'channel' ? 'Channel' : 'Company';
+
+            const payload = {
+                email: registerData.email,
+                password: registerData.password,
+                firstName: '', // в текущей форме нет этих полей
+                lastName: '',
+                telephone: registerData.phone,
+                role,
+                companyName: registerData.companyName,
+                description: undefined,
+                channelName: registerData.channelTheme,
+                channelLink: registerData.channelLink,
+                city: registerData.city,
+                channelTheme: registerData.channelTheme,
+                channelDescription: registerData.channelDescription,
+                membersAge: undefined,
+            };
+
+            await apiFetch('/api/auth/register/user', {
+                method: 'POST',
+                body: JSON.stringify(payload),
+            }, false);
+
+            // После успешной регистрации сразу логиним пользователя
+            if (registerData.email && registerData.password) {
+                const loginResult = await apiFetch<{ token: string }>('/api/auth/login', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        email: registerData.email,
+                        password: registerData.password,
+                    }),
+                }, false);
+
+                setAuthToken(loginResult.token);
+                localStorage.setItem('isAuthenticated', 'true');
+            }
+
+            navigate('/home', { replace: true });
+        } catch (error: any) {
+            console.error('Ошибка регистрации', error);
+            const errorMessage = error?.message?.includes('Email уже используется')
+                ? 'Email уже используется'
+                : 'Ошибка при регистрации. Попробуйте снова.';
+            setNotificationMessage(errorMessage);
+            setNotificationType('error');
+            setShowNotification(true);
+        }
     };
 
     const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -88,6 +159,13 @@ const Auth: React.FC = () => {
 
     return (
         <div className="auth-container">
+            {showNotification && (
+                <Notification
+                    message={notificationMessage}
+                    type={notificationType}
+                    onClose={() => setShowNotification(false)}
+                />
+            )}
             <h1>{title}</h1>
             {mode === 'choice' && (
                 <ChoiceScreen

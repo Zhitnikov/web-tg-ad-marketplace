@@ -77,7 +77,7 @@ namespace Daemon
             var db = scope.ServiceProvider.GetRequiredService<DaemonDbContext>();
 
             var availableCompanyAdsToGenerate = await db.CompanyAds
-                .Where(cmpnAd => cmpnAd.Status == AdStatus.Available && cmpnAd.NeedAutoFormatingToTgPost.Equals(true))
+                .Where(cmpnAd => cmpnAd.Status == AdStatus.Published && cmpnAd.NeedAutoFormatingToTgPost.Equals(true))
                 .Where(cmpnAd => !db.AdsToPosts.Any(ad => ad.CompanyAdId == cmpnAd.Id)).ToListAsync(ct);
 
             var posts = new List<AdToPost>();

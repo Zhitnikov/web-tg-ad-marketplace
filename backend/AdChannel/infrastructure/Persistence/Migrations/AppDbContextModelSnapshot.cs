@@ -17,7 +17,7 @@ namespace AdChannel.infrastructure.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -53,7 +53,7 @@ namespace AdChannel.infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AdsToPosts", (string)null);
+                    b.ToTable("AdsToPosts");
                 });
 
             modelBuilder.Entity("AdChannel.Domain.Models.Ads.CompanyAd", b =>
@@ -71,6 +71,9 @@ namespace AdChannel.infrastructure.Persistence.Migrations
 
                     b.Property<Guid>("CompanyId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsCanceled")
                         .HasColumnType("boolean");
@@ -100,7 +103,7 @@ namespace AdChannel.infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CompanyAds", (string)null);
+                    b.ToTable("CompanyAds");
                 });
 
             modelBuilder.Entity("AdChannel.Domain.Models.Users.ChannelUser", b =>
@@ -137,7 +140,7 @@ namespace AdChannel.infrastructure.Persistence.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("ChannelUsers", (string)null);
+                    b.ToTable("ChannelUsers");
                 });
 
             modelBuilder.Entity("AdChannel.Domain.Models.Users.CompanyUser", b =>
@@ -161,7 +164,7 @@ namespace AdChannel.infrastructure.Persistence.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("CompanyUsers", (string)null);
+                    b.ToTable("CompanyUsers");
                 });
 
             modelBuilder.Entity("AdChannel.Domain.Models.Users.User", b =>
@@ -169,6 +172,9 @@ namespace AdChannel.infrastructure.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<double>("Balance")
+                        .HasColumnType("double precision");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -198,7 +204,7 @@ namespace AdChannel.infrastructure.Persistence.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("AdChannel.Domain.Models.Users.ChannelUser", b =>

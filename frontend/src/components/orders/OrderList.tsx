@@ -4,13 +4,14 @@ import OrderCard from './OrderCard';
 
 interface OrderListProps {
     orders: Order[];
+    onOrderClick?: (order: Order) => void;
 }
 
-const OrderList: React.FC<OrderListProps> = ({ orders }) => {
+const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
     return (
         <div className="order-list">
             {orders.map((order) => (
-                <OrderCard key={order.id} order={order} />
+                <OrderCard key={order.id} order={order} onClick={onOrderClick ? () => onOrderClick(order) : undefined} />
             ))}
         </div>
     );

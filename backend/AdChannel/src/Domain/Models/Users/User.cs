@@ -9,6 +9,7 @@
         public string LastName { get; set; } = string.Empty;
         public string Telephone { get; set; } = string.Empty;
         public UserRole Role { get; set; }
+        public double Balance { get; set; } = 0.0;
 
         // Навигация
         public CompanyUser? Company { get; set; }

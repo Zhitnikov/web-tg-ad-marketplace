@@ -6,34 +6,9 @@ import { ProfileModal } from '../../components/account/ProfileModal';
 import OrderCard from '../../components/orders/OrderCard';
 import type { Order } from '../../types/orderTypes';
 import { Notification } from '../../components/Notification';
+import { AdDetailsModal } from '../../components/orders/AdDetailsModal';
 import '../../sass/blocks/ads-page/ads-page.scss';
-
-const mockAds: Order[] = [
-  {
-    id: '1',
-    name: 'Картина с изображением моря',
-    description: 'Не просто картина, а то чувство, когда просыпаешься и выходишь на веранду маленького домика в Италии.',
-    status: 'создан',
-  },
-  {
-    id: '2',
-    name: 'Подсвечник-загагулина',
-    description: 'То, что может украсить любой интерьер и дополнить атмосферу, созданную свечами.',
-    status: 'ожидает',
-  },
-  {
-    id: '3',
-    name: '3D картина из глины',
-    description: 'Не цветовой акцент, а текстурное чудо в вашем доме. Это картина, сделанная руками из глины.',
-    status: 'отклонён',
-  },
-  {
-    id: '4',
-    name: 'Постеры с картинами Климта',
-    description: 'Лучшие постеры с самыми известными картинами Климта, напечатанные на плотном матовом гобелене.',
-    status: 'завершён',
-  },
-];
+import { apiFetch } from '../../api';
 
 export const AdsPage: React.FC = () => {
   const navigate = useNavigate();
@@ -41,6 +16,30 @@ export const AdsPage: React.FC = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showNotification, setShowNotification] = useState(false);
+  const [ads, setAds] = useState<Order[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedAd, setSelectedAd] = useState<{
+    id: string;
+    productName?: string;
+    productDescription?: string;
+    productPrice?: number;
+    adCost?: number;
+    ageOfTargetAudience?: string;
+    linkToProduct?: string;
+    status?: number;
+  } | null>(null);
+  const [isAdModalOpen, setIsAdModalOpen] = useState(false);
+
+  interface CampaignData {
+    id: string;
+    productName?: string;
+    productDescription?: string;
+    productPrice?: number;
+    adCost?: number;
+    ageOfTargetAudience?: string;
+    linkToProduct?: string;
+    status?: number;
+  }
 
   useEffect(() => {
     // Проверяем, нужно ли показать уведомление
@@ -51,7 +50,73 @@ export const AdsPage: React.FC = () => {
     }
   }, []);
 
-  const filteredAds = mockAds.filter((ad) =>
+  const fetchAds = async () => {
+    setIsLoading(true);
+    try {
+      const data = await apiFetch<CampaignData[]>('/api/ads/company/my');
+
+      const normalized: Order[] = data.map((item) => ({
+        id: item.id,
+        name: item.productName ?? 'Рекламная кампания',
+        description: item.productDescription ?? '',
+        status: item.status === 0 ? 'создан' : item.status === 1 ? 'ожидает' : item.status === 2 ? 'опубликован' : 'неизвестно',
+        fullData: item,
+      }));
+
+      setAds(normalized);
+    } catch (error) {
+      console.error('Не удалось загрузить рекламу компании', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAds();
+  }, []);
+
+  const handleAdClick = (ad: Order) => {
+    if (ad.fullData) {
+      setSelectedAd(ad.fullData);
+      setIsAdModalOpen(true);
+    }
+  };
+
+  const handleEdit = (ad: Order) => {
+    if (ad.fullData) {
+      navigate(`/create-ad?edit=${ad.id}`);
+    }
+  };
+
+  const handleDelete = async (adId: string) => {
+    try {
+      await apiFetch(`/api/ads/company/${adId}`, {
+        method: 'DELETE',
+      });
+      await fetchAds();
+    } catch (error) {
+      console.error('Ошибка удаления рекламы:', error);
+      alert('Ошибка при удалении рекламы');
+    }
+  };
+
+  const handlePublish = async (adId: string) => {
+    try {
+      await apiFetch(`/api/ads/company/${adId}/publish`, {
+        method: 'POST',
+      });
+      await fetchAds();
+    } catch (error) {
+      console.error('Ошибка публикации рекламы:', error);
+      alert('Ошибка при публикации рекламы');
+    }
+  };
+
+  const handleContact = (ad: Order) => {
+    navigate('/accepted-ads');
+  };
+
+  const filteredAds = ads.filter((ad) =>
     ad.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     ad.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -72,6 +137,23 @@ export const AdsPage: React.FC = () => {
       />
       <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
       <ProfileModal isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
+      <AdDetailsModal
+        isOpen={isAdModalOpen}
+        onClose={() => {
+          setIsAdModalOpen(false);
+          setSelectedAd(null);
+        }}
+        ad={selectedAd ? {
+          id: selectedAd.id,
+          productName: selectedAd.productName || 'Без названия',
+          productDescription: selectedAd.productDescription || '',
+          productPrice: selectedAd.productPrice || 0,
+          adCost: selectedAd.adCost || 0,
+          ageOfTargetAudience: selectedAd.ageOfTargetAudience,
+          linkToProduct: selectedAd.linkToProduct,
+          status: String(selectedAd.status),
+        } : null}
+      />
       
       <div className="ads-page__search">
         <div className="ads-page__search-bar">
@@ -140,11 +222,26 @@ export const AdsPage: React.FC = () => {
           <span className="ads-page__create-text">Создать</span>
         </button>
         
-        <div className="ads-page__ads order-list">
-          {filteredAds.map((ad) => (
-            <OrderCard key={ad.id} order={ad} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="ads-page__loading">Загрузка...</div>
+        ) : filteredAds.length > 0 ? (
+          <div className="ads-page__ads order-list">
+            {filteredAds.map((ad) => (
+              <OrderCard 
+                key={ad.id} 
+                order={ad} 
+                onClick={() => handleAdClick(ad)}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                onPublish={handlePublish}
+                onContact={handleContact}
+                showPublish={true}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="ads-page__empty">Рекламы пока нет</div>
+        )}
       </div>
     </div>
   );

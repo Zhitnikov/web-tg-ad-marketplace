@@ -22,11 +22,37 @@ const WalletForm: React.FC = () => {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('Данные пополнения (заглушка):', formData);
-        // TODO: Симулировать оплату или API
-        alert('Пополнение симулировано!'); // Заглушка
+        
+        try {
+            const { apiFetch } = await import('../../api');
+            const amount = parseFloat(formData.amount);
+            
+            if (isNaN(amount) || amount <= 0) {
+                alert('Введите корректную сумму');
+                return;
+            }
+
+            const result = await apiFetch<{ balance: number }>('/api/user/balance/replenish', {
+                method: 'POST',
+                body: JSON.stringify({ amount }),
+            });
+
+            alert(`Баланс успешно пополнен! Текущий баланс: ${result.balance.toFixed(2)} руб.`);
+            
+            // Очистка формы
+            setFormData({
+                amount: '',
+                cardNumber: '',
+                expiry: '',
+                cvv: '',
+                method: 'card',
+            });
+        } catch (error) {
+            console.error('Ошибка пополнения баланса:', error);
+            alert('Ошибка при пополнении баланса. Попробуйте позже.');
+        }
     };
 
     const isValidAmount = parseFloat(formData.amount) > 0;

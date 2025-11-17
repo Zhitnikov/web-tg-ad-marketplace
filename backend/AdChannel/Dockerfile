@@ -17,6 +17,7 @@ RUN dotnet restore
 COPY . .
 
 # Сборка
+
 RUN dotnet build "AdChannel.csproj" -c Release -o /app/build
 
 # === PUBLISH ===

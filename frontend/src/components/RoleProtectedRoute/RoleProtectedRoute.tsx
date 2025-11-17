@@ -21,3 +21,4 @@ export const RoleProtectedRoute: React.FC<RoleProtectedRouteProps> = ({ children
   return children;
 };
 
+export default RoleProtectedRoute;

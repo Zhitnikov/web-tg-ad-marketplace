@@ -12,3 +12,4 @@ export const CreateAdPage: React.FC = () => {
   );
 };
 
+export default CreateAdPage;

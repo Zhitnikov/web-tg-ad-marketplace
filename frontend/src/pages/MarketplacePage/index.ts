@@ -1,2 +1,0 @@
-export { MarketplacePage } from './MarketplacePage';
-

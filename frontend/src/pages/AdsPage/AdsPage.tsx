@@ -42,7 +42,6 @@ export const AdsPage: React.FC = () => {
   }
 
   useEffect(() => {
-    // Проверяем, нужно ли показать уведомление
     const shouldShowNotification = localStorage.getItem('showAdCreatedNotification');
     if (shouldShowNotification === 'true') {
       setShowNotification(true);
@@ -247,3 +246,4 @@ export const AdsPage: React.FC = () => {
   );
 };
 
+export default AdsPage;

@@ -132,3 +132,4 @@ export const MarketplacePage: React.FC = () => {
   );
 };
 
+export default MarketplacePage;

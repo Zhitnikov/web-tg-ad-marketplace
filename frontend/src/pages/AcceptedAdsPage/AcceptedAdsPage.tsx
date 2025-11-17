@@ -99,3 +99,4 @@ export const AcceptedAdsPage: React.FC = () => {
   );
 };
 
+export default AcceptedAdsPage;

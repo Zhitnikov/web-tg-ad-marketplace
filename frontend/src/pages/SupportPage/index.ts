@@ -1,2 +1,0 @@
-export { SupportPage } from './SupportPage';
-

@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import LoadingPage from './components/loading/LoadingPage.tsx';
 import './sass/blocks/app/app.scss';
+import NotFound from "./pages/NotFoundPage/NotFound.tsx";
 
 const Auth = lazy(() => import('./pages/Auth'));
 const MyOrders = lazy(() => import("./pages/MyOrders.tsx"));
@@ -107,6 +108,7 @@ function App() {
                                 </ProtectedRoute>
                             }
                         />
+                        <Route path="*" element={<NotFound />} />
                     </Routes>
                 </Suspense>
             </div>

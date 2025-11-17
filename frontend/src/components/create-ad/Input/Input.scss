@@ -1,0 +1,6 @@
+@use "../../../sass/base/mixins.scss" as *;
+
+.input {
+  @include input;
+}
+

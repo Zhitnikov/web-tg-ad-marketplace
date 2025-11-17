@@ -1,0 +1,8 @@
+@use "../../base/variables.scss" as *;
+
+.create-ad-page {
+  min-height: 100vh;
+  background-color: $background;
+  padding: $spacing-lg 0;
+}
+

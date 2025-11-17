@@ -1,0 +1,131 @@
+@use "../../../sass/base/variables.scss" as *;
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(224, 218, 218, 0);
+  backdrop-filter: blur(0px);
+  z-index: 998;
+  opacity: 0;
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease, opacity 0.3s ease;
+  pointer-events: none;
+  
+  &--open {
+    background-color: rgba(224, 218, 218, 0.5);
+    backdrop-filter: blur(13.5px);
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 375px;
+  height: 100vh;
+  background-color: $main-color;
+  z-index: 999;
+  padding: 24px;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  
+  &--open {
+    transform: translateX(0);
+  }
+  
+  @media (max-width: 320px) {
+    padding: 16px;
+    max-width: 100%;
+  }
+}
+
+.menu__close {
+  position: absolute;
+  top: 75px;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.menu__nav {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  margin-top: 60px;
+}
+
+.menu__item {
+  font-family: $font-family;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.221;
+  color: $white;
+  text-decoration: none;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  padding: 8px 0;
+  transition: all 0.2s ease;
+  position: relative;
+  
+  &:hover {
+    opacity: 0.7;
+    transform: translateX(5px);
+  }
+  
+  &--active {
+    font-weight: 700;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: -24px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 20px;
+      background-color: $accent-color;
+      border-radius: 0 2px 2px 0;
+      animation: slideIn 0.3s ease;
+    }
+  }
+  
+  @media (max-width: 320px) {
+    font-size: 16px;
+    padding: 6px 0;
+    
+    &--active::before {
+      left: -16px;
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 4px;
+    opacity: 1;
+  }
+}
+

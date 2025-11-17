@@ -1,0 +1,254 @@
+@use "../../base/variables.scss" as *;
+
+.orders-page {
+  min-height: 100vh;
+  background-color: $background;
+}
+
+.orders-page__search {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  gap: 8px;
+}
+
+.orders-page__search-bar {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 13px;
+  background-color: $white;
+  border-radius: 10px;
+  border: 1px solid $border-color-light;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  
+  &:focus-within {
+    border-color: $accent-color;
+    box-shadow: 0 0 0 2px rgba(36, 60, 235, 0.1);
+  }
+}
+
+.orders-page__search-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.orders-page__search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: none;
+  font-family: $font-family;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.193;
+  color: $main-color;
+  
+  &::placeholder {
+    color: $second-color;
+  }
+}
+
+.orders-page__sort {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 8px;
+  height: 18px;
+  
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.orders-page__content {
+  padding: 27px 12px;
+}
+
+.orders-page__orders {
+  display: flex;
+  flex-direction: column;
+  
+  &.order-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+
+    @media (max-width: 767px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.order-card {
+  background-color: $white;
+  border: 1px solid $border-color-light;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .order-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h3 {
+      margin: 0;
+      color: $main-color;
+      font-size: 18px;
+      font-weight: bold;
+      font-family: $font-family;
+    }
+
+    .menu-button {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: $second-color;
+      padding: 4px 8px;
+      line-height: 1;
+      
+      &:hover {
+        color: $error-color;
+      }
+    }
+
+    .order-card-menu {
+      position: relative;
+    }
+
+    .order-card-menu-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border: 1px solid $border-color-light;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      min-width: 150px;
+      margin-top: 4px;
+
+      .menu-item {
+        display: block;
+        width: 100%;
+        padding: 12px 16px;
+        text-align: left;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        color: $main-color;
+        transition: background 0.2s;
+
+        &:hover {
+          background: #f5f5f5;
+        }
+
+        &:first-child {
+          border-radius: 8px 8px 0 0;
+        }
+
+        &:last-child {
+          border-radius: 0 0 8px 8px;
+        }
+
+        &.menu-item--danger {
+          color: $error-color;
+
+          &:hover {
+            background: #fee;
+          }
+        }
+      }
+    }
+  }
+
+  .order-description {
+    margin: 10px 0;
+    color: $second-color;
+    font-size: 14px;
+    font-family: $font-family;
+    line-height: 1.193;
+  }
+
+  .order-status {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    align-self: flex-start;
+    font-family: $font-family;
+
+    &.status-ожидает {
+      background-color: #ffc107;
+      color: #000000;
+    }
+
+    &.status-завершён {
+      background-color: #28a745;
+      color: $white;
+    }
+
+    &.status-создан {
+      background-color: #007bff;
+      color: $white;
+    }
+
+    &.status-отклонён {
+      background-color: #dc3545;
+      color: $white;
+    }
+
+    &.status-опубликован {
+      background-color: #28a745;
+      color: $white;
+    }
+  }
+
+  .order-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    gap: 10px;
+  }
+
+  .order-card-contact-button {
+    padding: 8px 16px;
+    background-color: $error-color;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+    font-family: $font-family;
+
+    &:hover {
+      background-color: darken($error-color, 10%);
+    }
+  }
+
+  &:hover {
+    border-color: $error-color;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
